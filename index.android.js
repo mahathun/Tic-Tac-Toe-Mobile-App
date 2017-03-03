@@ -45,12 +45,12 @@ export default class TestReactNative extends Component {
   render() {
     return (
       <Provider store={appStore}>
-        <View style={styles.container}>
-              <Header />
-              <Scoreboard />
-              <GameCanvas style={styles.gameCanvas}/>
+      <View style={styles.container}>
+            <Header />
+            <Scoreboard />
+            <GameCanvas style={styles.gameCanvas}/>
 
-        </View>
+      </View>
       </Provider>
     );
   }
