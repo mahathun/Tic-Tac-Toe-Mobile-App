@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import {connect} from 'react-redux';
 
 import {View, Text, StyleSheet} from 'react-native';
 
@@ -9,12 +10,12 @@ class Scoreboard extends Component {
       <View style={styles.container}>
         <View style={styles.player1Board}>
           <View style={styles.player1TextContainer}>
-            <Text style={styles.player1Text}>Player 1</Text>
+            <Text style={styles.player1Text}>X : {this.props.score.player1}</Text>
           </View>
         </View>
         <View style={styles.player2Board}>
           <View style={styles.player2TextContainer}>
-            <Text style={styles.player2Text}>Player 2</Text>
+            <Text style={styles.player2Text}>O : {this.props.score.player2}</Text>
           </View>
         </View>
       </View>
@@ -66,4 +67,8 @@ const styles = StyleSheet.create({
   }
 });
 
-export default Scoreboard;
+export default connect((state)=>{
+  return {
+    score:state.score,
+  }
+})(Scoreboard);

@@ -1,14 +1,25 @@
 import React, {Component} from 'react'
 
 import {View,Text,StyleSheet,TouchableOpacity} from 'react-native'
+import {connect} from 'react-redux';
+//actions
+import * as actions from './../actions/actions'
 
 class Cell extends Component {
+  onClick(e){
+    var {symbol,dispatch,dataId, currentPlayerSymbol, winningStatus} = this.props;
+    if(symbol==='' && winningStatus ==='pending'){
+      dispatch(actions.changeCell(dataId,currentPlayerSymbol));
+      dispatch(actions.played(currentPlayerSymbol));
+    }
+
+  }
   render() {
     return (
-      <TouchableOpacity style={styles.touchContainer} onPress={this._onPressButton}>
+      <TouchableOpacity style={styles.touchContainer} onPress={this.onClick.bind(this)}>
         <View style={styles.cell}>
-          <Text style={styles.cellText}>
-            X
+          <Text style={styles.cellText} data={this.props.symbol}>
+            {this.props.symbol}
           </Text>
         </View>
     </TouchableOpacity>
@@ -37,4 +48,9 @@ const styles = StyleSheet.create({
     fontWeight:'bold'
   }
 })
-export default Cell
+export default connect((state)=>{
+  return {
+    currentPlayerSymbol: state.currentPlayerSymbol,
+    winningStatus:state.winningStatus
+  }
+})(Cell)

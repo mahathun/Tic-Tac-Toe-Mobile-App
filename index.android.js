@@ -19,16 +19,39 @@ import Header from './app/components/Header.js'
 import Scoreboard from './app/components/Scoreboard.js'
 import GameCanvas from './app/components/GameCanvas'
 
+//actions
+import * as actions from './app/actions/actions';
+
+//store
+import * as store from './app/store/config';
+import {Provider} from 'react-redux';
+import watch from 'redux-watch';
+
+//initializing the store
+var appStore = store.configure({
+  currentPlayerSymbol: 'X',
+  board:['','','','','','','','',''],
+  winningStatus: 'pending',
+});
+
+//watching for board changes
+var w = watch(appStore.getState, 'board');
+//check for a winning combination
+appStore.subscribe(w((newVal, oldVal, objectPath) => {
+  appStore.dispatch(actions.win(newVal));
+}))
+
 export default class TestReactNative extends Component {
   render() {
     return (
-      <View style={styles.container}>
+      <Provider store={appStore}>
+        <View style={styles.container}>
+              <Header />
+              <Scoreboard />
+              <GameCanvas style={styles.gameCanvas}/>
 
-            <Header />
-            <Scoreboard />
-            <GameCanvas style={styles.gameCanvas}/>
-
-      </View>
+        </View>
+      </Provider>
     );
   }
 }
